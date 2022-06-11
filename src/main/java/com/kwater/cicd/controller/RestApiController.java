@@ -1,5 +1,6 @@
 package com.kwater.cicd.controller;
 
+import jdk.nashorn.internal.parser.JSONParser;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -9,21 +10,38 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 @RestController
 public class RestApiController {
 
     @GetMapping("/apiRequest")
     public String callApiWithXml() {
         StringBuffer result = new StringBuffer();
+        Calendar calendar = new GregorianCalendar();
+        SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd");
+        LocalTime now = LocalTime.now();
+
+        //date
+        String vdate = SDF.format(calendar.getTime());
+        calendar.add(Calendar.DATE,-1);
+        String tdate = SDF.format(calendar.getTime());
+        calendar.add(Calendar.DATE,-364);
+        String ldate = SDF.format(calendar.getTime());
+        int vtime = now.getHour();
+
         try {
             String apiUrl = "http://apis.data.go.kr/B500001/dam/multiFunctionBarrierManagementpresentconditon/presentconditonlist?" +
                     "serviceKey=OTKwGzCz4ibTyutGgOl2ghUVuYQO13U47PEGTfIU6AUsbMT7cne5T9OxHOAyX%2BgS7og7ARlD8fsnT2umW1%2FWlA%3D%3D" + "" +
                     "&pageNo=1" +
                     "&numOfRows=10" +
-                    "&tdate=2018-08-19" +
-                    "&ldate=2017-08-20" +
-                    "&vdate=2018-08-20" +
-                    "&vtime=07" + "" +
+                    "&tdate=" + tdate +
+                    "&ldate=" + ldate +
+                    "&vdate=" + vdate +
+                    "&vtime=" + vtime +
                     "&_type=json";
 
             URL url = new URL(apiUrl);
@@ -39,6 +57,7 @@ public class RestApiController {
 //                System.out.println(returnLine);
                 result.append(returnLine + "\n");
             }
+
             urlConnection.disconnect();
         } catch (Exception e) {
             e.printStackTrace();
