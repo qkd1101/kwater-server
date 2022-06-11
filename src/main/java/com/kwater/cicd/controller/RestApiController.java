@@ -19,7 +19,6 @@ import java.util.GregorianCalendar;
 public class RestApiController {
 
     @GetMapping("/apiRequest")
-
     public String callApiWithXml() {
         StringBuffer result = new StringBuffer();
         Calendar calendar = new GregorianCalendar();
