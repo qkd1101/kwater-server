@@ -20,7 +20,7 @@ import java.util.GregorianCalendar;
 @Component
 public class RestApiTask {
 
-    @Scheduled(cron="* 0/60 * * * ?")
+//     @Scheduled(cron="* 0/60 * * * ?")
     public void test() {
         StringBuffer result = new StringBuffer();
         Calendar calendar = new GregorianCalendar();
